@@ -1,5 +1,0 @@
-/Users/bharathsr/Documents/Projects/Customer Support Agent/email-listener-service/src/main/java/com/example/email_listener_service/EmailListenerServiceApplication.java
-/Users/bharathsr/Documents/Projects/Customer Support Agent/email-listener-service/src/main/java/com/example/email_listener_service/config/ImapIntegrationConfig.java
-/Users/bharathsr/Documents/Projects/Customer Support Agent/email-listener-service/src/main/java/com/example/email_listener_service/dto/EmailMessage.java
-/Users/bharathsr/Documents/Projects/Customer Support Agent/email-listener-service/src/main/java/com/example/email_listener_service/kafka/EmailKafkaProducer.java
-/Users/bharathsr/Documents/Projects/Customer Support Agent/email-listener-service/src/main/java/com/example/email_listener_service/service/EmailProcessingService.java

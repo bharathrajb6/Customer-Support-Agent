@@ -1,2 +1,42 @@
-.idea
-.vscode
+# === IDE ===
+.idea/
+.vscode/
+*.iws
+*.iml
+*.ipr
+
+# === Java / Maven Build Output ===
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# === Maven Wrapper (downloaded binary) ===
+.mvn/wrapper/maven-wrapper.jar
+
+# === OS Files ===
+.DS_Store
+Thumbs.db
+
+# === Environment / Secrets ===
+.env
+
+# === Spring Tool Suite ===
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# === NetBeans ===
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# === Logs ===
+*.log
