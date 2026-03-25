@@ -1,7 +1,8 @@
 package com.example.email_processing_service.kafka;
 
 import com.example.email_processing_service.dto.EmailMessage;
-import com.example.email_processing_service.service.EmailProcessingService;
+import com.example.email_processing_service.service.EmailWorkflowService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -12,11 +13,17 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class EmailKafkaConsumer {
 
-    private final EmailProcessingService emailProcessingService;
+    private final EmailWorkflowService emailWorkflowService;
+    private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "incoming-emails", groupId = "email-processing-group")
-    public void consume(EmailMessage emailMessage) {
-        log.info("📥 Received email from Kafka: subject='{}'", emailMessage.getSubject());
-        emailProcessingService.processEmail(emailMessage);
+    @KafkaListener(topics = "${app.kafka.topic.incoming}", groupId = "${spring.kafka.consumer.group-id}")
+    public void consume(String payload) {
+        try {
+            EmailMessage emailMessage = objectMapper.readValue(payload, EmailMessage.class);
+            log.info("Received email event: gmailId={} subject={}", emailMessage.getGmailId(), emailMessage.getSubject());
+            emailWorkflowService.processIncomingEmail(emailMessage);
+        } catch (Exception e) {
+            log.error("Failed to process Kafka payload", e);
+        }
     }
 }

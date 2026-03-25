@@ -1,0 +1,23 @@
+Task: Generate a customer reply draft.
+
+Inputs:
+- EMAIL_JSON
+- INTENT_JSON
+- TOOL_OUTPUT_JSON
+
+Output JSON schema (strict):
+{
+  "draft": "string",
+  "confidence": 0.0
+}
+
+Draft rules:
+- Start with a brief greeting.
+- Acknowledge the user's issue.
+- Provide direct answer using TOOL_OUTPUT_JSON when available.
+- If data missing, ask one focused follow-up question.
+- Keep under 180 words.
+- Do not mention internal tools or model limitations.
+- End with a short supportive closing.
+- confidence must be between 0.0 and 1.0.
+- Output JSON only.

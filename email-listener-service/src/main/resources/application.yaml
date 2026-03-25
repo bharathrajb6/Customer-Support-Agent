@@ -1,11 +1,11 @@
 spring:
   config:
-    import: optional:file:.env[.properties]
+    import: optional:file:.env[.properties],optional:file:email-listener-service/.env[.properties]
   application:
     name: email-listener-service
   mail:
-    host: imap.gmail.com
-    port: 993
+    host: ${EMAIL_IMAP_HOST:imap.gmail.com}
+    port: ${EMAIL_IMAP_PORT:993}
     username: ${EMAIL_USERNAME}
     password: ${EMAIL_PASSWORD}
     properties:
@@ -17,9 +17,12 @@ spring:
         store:
           protocol: imaps
   kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      properties:
-        spring.json.add.type.headers: false
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+server:
+  port: 8082
+
+app:
+  kafka:
+    topic:
+      incoming: ${KAFKA_TOPIC_INCOMING:incoming-emails}

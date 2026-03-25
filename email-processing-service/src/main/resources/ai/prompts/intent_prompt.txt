@@ -1,0 +1,24 @@
+Task: Classify customer intent, extract entities, and pick tool calls.
+
+Input:
+- EMAIL_JSON
+
+Output JSON schema (strict):
+{
+  "intent": "ORDER_STATUS|REFUND|CANCELLATION|ACCOUNT|BILLING|TECH_SUPPORT|GENERAL",
+  "entities": {
+    "order_id": "string optional",
+    "email": "string optional",
+    "query": "string optional"
+  },
+  "tools": ["order_service", "user_service", "knowledge_base_search"],
+  "confidence": 0.0
+}
+
+Rules:
+- confidence must be between 0.0 and 1.0.
+- If order number appears, include it as entities.order_id.
+- If customer email appears, include entities.email.
+- If policy/process answer needed, include knowledge_base_search.
+- If unsure, set intent=GENERAL and tools=["knowledge_base_search"].
+- Output JSON only.

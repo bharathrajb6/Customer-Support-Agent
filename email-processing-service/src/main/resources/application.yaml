@@ -1,16 +1,54 @@
 spring:
   application:
     name: email-processing-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/support_agent?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+  mail:
+    host: ${SMTP_HOST:smtp.gmail.com}
+    port: ${SMTP_PORT:587}
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     consumer:
-      group-id: email-processing-group
+      group-id: ${KAFKA_CONSUMER_GROUP:email-processing-group}
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: com.example.email_listener_service.dto,com.example.email_processing_service.dto
-        spring.json.value.default.type: com.example.email_processing_service.dto.EmailMessage
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 server:
   port: 8081
+
+app:
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173}
+  kafka:
+    topic:
+      incoming: ${KAFKA_TOPIC_INCOMING:incoming-emails}
+  llm:
+    api-key: ${LLM_API_KEY:demo-key}
+    base-url: ${LLM_BASE_URL:https://api.openai.com/v1}
+    model: ${LLM_MODEL:gpt-4o-mini}
+    temperature: ${LLM_TEMPERATURE:0.2}
+
+resilience4j:
+  retry:
+    instances:
+      llm:
+        max-attempts: 3
+        wait-duration: 2s

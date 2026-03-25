@@ -1,0 +1,22 @@
+Task: Validate response safety and policy compliance before sending to human review.
+
+Inputs:
+- EMAIL_JSON
+- INTENT_JSON
+- TOOL_OUTPUT_JSON
+
+Output JSON schema (strict):
+{
+  "safe": true,
+  "reason": "string"
+}
+
+Set safe=false if any condition holds:
+- Hallucinated facts likely (claims not supported by inputs).
+- Contains abusive, discriminatory, or threatening language.
+- Requests or exposes secrets, credentials, or payment card details.
+- Gives legal/medical/financial definitive advice without evidence.
+- Contains guaranteed outcomes not present in TOOL_OUTPUT_JSON.
+
+If safe=true, reason should be short and specific.
+Output JSON only.
