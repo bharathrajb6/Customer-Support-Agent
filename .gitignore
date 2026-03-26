@@ -21,6 +21,7 @@ Thumbs.db
 
 # === Environment / Secrets ===
 .env
+**/.env
 
 # === Spring Tool Suite ===
 .apt_generated
